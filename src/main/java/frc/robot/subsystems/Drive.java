@@ -1,5 +1,6 @@
-import edu.first.wpilibj.PWMSparkMax;  
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Drive extends SubsystemBase{
   private DifferentialDrive m_robotDrive;
