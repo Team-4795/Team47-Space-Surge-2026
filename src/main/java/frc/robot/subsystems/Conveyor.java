@@ -15,9 +15,9 @@ public class Conveyor extends SubsystemBase {
         this.setDefaultCommand(Commands.run(() -> this.stopConveyor(), this));
     }
 
-    public void setConveyorVoltage(){
-        m_topMotor.setVoltage(5);
-        m_bottomMotor.setVoltage(5);
+    public void startConveyor(){
+       m_topMotor.setVoltage(5);
+       m_bottomMotor.setVoltage(5);
     }
 
     public void stopConveyor(){

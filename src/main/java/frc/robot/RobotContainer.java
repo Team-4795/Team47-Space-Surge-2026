@@ -47,13 +47,17 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    m_drive.setDefaultCommand(Commands.run(() -> m_drive.drive(m_driverController.getLeftY(), m_driverController.getRightX()), m_drive));
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
     m_driverController.leftTrigger().whileTrue(Commands.run(() -> m_intake.setIntakeVoltage(5)));
     m_driverController.rightTrigger().whileTrue(Commands.run(() -> m_drive.setDriveVoltage(5)));
-
     m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
+
+    m_driverController.rightBumper().whileTrue(Commands.startEnd(
+        () -> m_Conveyor.startConveyor(),
+        () -> m_Conveyor.stopConveyor(),
+        m_Conveyor
+      ));
   }
 
   /**
