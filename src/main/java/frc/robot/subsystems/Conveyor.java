@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -10,17 +11,17 @@ public class Conveyor extends SubsystemBase {
 
     public Conveyor(boolean isInverted){
         m_topMotor.setInverted(isInverted);
+
+        this.setDefaultCommand(Commands.run(() -> this.stopConveyor(), this));
     }
 
     public void setConveyorVoltage(){
         m_topMotor.setVoltage(5);
         m_bottomMotor.setVoltage(5);
     }
-    
+
     public void stopConveyor(){
         m_topMotor.setVoltage(0);
         m_bottomMotor.setVoltage(0);
     }
-
-
 }
