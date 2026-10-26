@@ -10,6 +10,7 @@ public class Conveyor extends SubsystemBase {
 
     public Conveyor(boolean isInverted){
         m_topMotor.setInverted(isInverted);
+        
     }
 
     public void setConveyorVoltage(){
@@ -21,6 +22,6 @@ public class Conveyor extends SubsystemBase {
         m_topMotor.setVoltage(0);
         m_bottomMotor.setVoltage(0);
     }
-
+    
 
 }
