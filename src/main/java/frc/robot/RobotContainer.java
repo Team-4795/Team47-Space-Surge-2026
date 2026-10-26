@@ -10,6 +10,7 @@ import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Conveyor;
 import frc.robot.subsystems.Drive;
+import frc.robot.subsystems.DriveSim;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -28,6 +29,7 @@ public class RobotContainer {
   private final Conveyor m_Conveyor = new Conveyor(true);
   private final Drive m_drive = new Drive();
   private final Intake m_intake = new Intake();
+  private final DriveSim drive = new DriveSim();
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
       new CommandXboxController(OperatorConstants.kDriverControllerPort);
@@ -51,6 +53,13 @@ public class RobotContainer {
     // cancelling on release.
     m_driverController.leftTrigger().whileTrue(Commands.run(() -> m_intake.setIntakeVoltage(5)));
     m_driverController.rightTrigger().whileTrue(Commands.run(() -> m_drive.setDriveVoltage(5)));
+
+    drive.setDefaultCommand(Commands.run(() -> drive.tankDrive(
+      m_driverController.getLeftY(), 
+      m_driverController.getRightY()
+      ), drive
+      ));
+
     m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
 
     m_driverController.rightBumper().whileTrue(Commands.startEnd(
