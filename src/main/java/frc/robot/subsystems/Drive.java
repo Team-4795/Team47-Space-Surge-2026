@@ -1,16 +1,14 @@
 package frc.robot.subsystems;
 
+import org.littletonrobotics.junction.Logger;
+
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Drive extends SubsystemBase{
-  private DifferentialDrive m_robotDrive;
-      /* private final PWMSparkMax m_leftMotor = new PWMSparkMax(0);
-      private final PWMSparkMax m_rightMotor = new PWMSparkMax(1);*/
-  private final PWMSparkMax m_leftMotor = new PWMSparkMax(Constants.DriverConstants.DRIVER_MOTOR_LEFT_CAN_ID);
-  private final PWMSparkMax m_rightMotor = new PWMSparkMax(Constants.DriverConstants.DRIVER_MOTOR_RIGHT_CAN_ID);
+  private final PWMSparkMax 
 
   public Drive() {
     // We need to invert one side of the drivetrain so that positive voltages
@@ -29,5 +27,8 @@ public class Drive extends SubsystemBase{
     m_leftMotor.setVoltage(-voltage);
     m_rightMotor.setVoltage(voltage);
   }
-}
 
+  public void periodic(){
+    Logger.recordOutput("Drive/Testing", "Hi");
+  }
+}
