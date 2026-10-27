@@ -8,7 +8,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Drive extends SubsystemBase{
-  private final PWMSparkMax 
+  private DifferentialDrive m_robotDrive;
+  private final PWMSparkMax m_leftMotor = new PWMSparkMax(Constants.DriverConstants.DRIVER_MOTOR_LEFT_CAN_ID);
+  private final PWMSparkMax m_rightMotor = new PWMSparkMax(Constants.DriverConstants.DRIVER_MOTOR_RIGHT_CAN_ID);
 
   public Drive() {
     // We need to invert one side of the drivetrain so that positive voltages
