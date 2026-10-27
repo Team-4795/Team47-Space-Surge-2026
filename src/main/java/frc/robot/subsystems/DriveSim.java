@@ -2,6 +2,9 @@ package frc.robot.subsystems;
 
 import org.littletonrobotics.junction.Logger;
 
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
 import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim.KitbotGearing;
 import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim.KitbotMotor;
@@ -16,15 +19,19 @@ public class DriveSim extends SubsystemBase {
             KitbotWheelSize.kSixInch,
             null
         );
+    DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(0.5);
 
     public DriveSim() {
 
     }
 
-    public void arcadeDrive(double speed, double rotation) {}
+    public void arcadeDrive(double speed, double rotation) {
+        DifferentialDriveWheelSpeeds wheelSpeeds = kinematics.toWheelSpeeds(new ChassisSpeeds(speed, 0, rotation));
+        driveSim.setInputs(wheelSpeeds.leftMetersPerSecond, wheelSpeeds.rightMetersPerSecond);
+    }
 
     public void tankDrive(double rSpeed, double lSpeed) {
-        driveSim.setInputs(rSpeed, lSpeed);
+        driveSim.setInputs(rSpeed * 5, lSpeed * 5);
     }
 
     @Override
