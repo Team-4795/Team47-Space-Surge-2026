@@ -1,11 +1,16 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Intake extends SubsystemBase {
     private final PWMSparkMax m_intakeMotor = new PWMSparkMax(Constants.IntakerConstants.INTAKER_MOTOR_CAN_ID);
+
+    public Intake(){
+        this.setDefaultCommand(Commands.run(() -> this.stopIntake(), this));
+    }
 
     public void setIntakeVoltage(double voltage){
         m_intakeMotor.setVoltage(voltage);
@@ -14,5 +19,4 @@ public class Intake extends SubsystemBase {
     public void stopIntake(){
         m_intakeMotor.setVoltage(0);
     }
-
 }

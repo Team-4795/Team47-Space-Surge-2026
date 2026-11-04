@@ -8,6 +8,7 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.IntakeSim;
 import frc.robot.subsystems.Conveyor;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.DriveSim;
@@ -28,7 +29,7 @@ public class RobotContainer {
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final Conveyor m_Conveyor = new Conveyor(true);
   private final Drive m_drive = new Drive();
-  private final Intake m_intake = new Intake();
+  private final IntakeSim m_intake = new IntakeSim();
   private final DriveSim drive = new DriveSim();
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
@@ -51,16 +52,20 @@ public class RobotContainer {
   private void configureBindings() {
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
-    m_driverController.leftTrigger().whileTrue(Commands.run(() -> m_intake.setIntakeVoltage(5)));
-    m_driverController.rightTrigger().whileTrue(Commands.run(() -> m_drive.setDriveVoltage(5)));
+    m_intake.setDefaultCommand(Commands.run(() -> m_intake.setIntakeVoltage(0), m_intake));
 
-    drive.setDefaultCommand(Commands.run(() -> drive.tankDrive(
-      m_driverController.getLeftY(), 
-      m_driverController.getRightY()
+    drive.setDefaultCommand(Commands.run(() -> drive.arcadeDrive(
+      -m_driverController.getLeftY(), 
+      -m_driverController.getRightX()
       ), drive
       ));
 
+    m_driverController.leftTrigger().whileTrue(Commands.run(() -> m_intake.setIntakeVoltage(5), m_intake));
+    m_driverController.rightTrigger().whileTrue(Commands.run(() -> m_drive.setDriveVoltage(5), m_drive));
+
+
     m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
+    
 
     m_driverController.rightBumper().whileTrue(Commands.startEnd(
         () -> m_Conveyor.startConveyor(),

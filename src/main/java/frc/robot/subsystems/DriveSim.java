@@ -26,7 +26,7 @@ public class DriveSim extends SubsystemBase {
     }
 
     public void arcadeDrive(double speed, double rotation) {
-        DifferentialDriveWheelSpeeds wheelSpeeds = kinematics.toWheelSpeeds(new ChassisSpeeds(speed, 0, rotation));
+        DifferentialDriveWheelSpeeds wheelSpeeds = kinematics.toWheelSpeeds(new ChassisSpeeds(speed * 10, 0, rotation * 10));
         driveSim.setInputs(wheelSpeeds.leftMetersPerSecond, wheelSpeeds.rightMetersPerSecond);
     }
 
@@ -38,7 +38,7 @@ public class DriveSim extends SubsystemBase {
     public void periodic() {
         driveSim.update(0.02);
 
-        Logger.recordOutput("", driveSim.getPose());
+        Logger.recordOutput("Drive/Pose", driveSim.getPose());
         Logger.recordOutput("Drive/Current", driveSim.getCurrentDrawAmps());
     }
 }
