@@ -17,7 +17,6 @@ public class Drive extends SubsystemBase{
     // result in both sides moving forward. Depending on how your robot's
     // gearbox is constructed, you might have to invert the left side instead.
     m_rightMotor.setInverted(true);
-
     m_robotDrive = new DifferentialDrive(m_leftMotor::set, m_rightMotor::set);
   }
   

@@ -10,6 +10,7 @@ import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.IntakeSim;
 import frc.robot.subsystems.Conveyor;
+import frc.robot.subsystems.ConveyorSim;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.DriveSim;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -28,8 +29,10 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final Conveyor m_Conveyor = new Conveyor(true);
+  private final ConveyorSim conveyor = new ConveyorSim();
   private final Drive m_drive = new Drive();
-  private final IntakeSim m_intake = new IntakeSim();
+  private final Intake m_intake = new Intake();
+  private final IntakeSim intake = new IntakeSim();
   private final DriveSim drive = new DriveSim();
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
@@ -53,8 +56,9 @@ public class RobotContainer {
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
     m_intake.setDefaultCommand(Commands.run(() -> m_intake.setIntakeVoltage(0), m_intake));
+    conveyor.setDefaultCommand(Commands.run(() ->conveyor.stopConveyor(), conveyor));
 
-    drive.setDefaultCommand(Commands.run(() -> drive.arcadeDrive(
+    m_drive.setDefaultCommand(Commands.run(() -> drive.arcadeDrive(
       -m_driverController.getLeftY(), 
       -m_driverController.getRightX()
       ), drive
@@ -63,15 +67,9 @@ public class RobotContainer {
     m_driverController.leftTrigger().whileTrue(Commands.run(() -> m_intake.setIntakeVoltage(5), m_intake));
     m_driverController.rightTrigger().whileTrue(Commands.run(() -> m_drive.setDriveVoltage(5), m_drive));
 
-
     m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
-    
 
-    m_driverController.rightBumper().whileTrue(Commands.startEnd(
-        () -> m_Conveyor.startConveyor(),
-        () -> m_Conveyor.stopConveyor(),
-        m_Conveyor
-      ));
+    m_driverController.leftBumper().whileTrue(Commands.run(() -> conveyor.startConveyor(), conveyor));
   }
 
   /**

@@ -4,6 +4,8 @@
 
 package frc.robot.commands;
 
+import frc.robot.subsystems.ConveyorSim;
+import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -12,6 +14,13 @@ public final class Autos {
   /** Example static factory for an autonomous command. */
   public static Command exampleAuto(ExampleSubsystem subsystem) {
     return Commands.sequence(subsystem.exampleMethodCommand(), new ExampleCommand(subsystem));
+  }
+
+  /* Drives forward at half speed for 2 seconds, then stops.  */ 
+  public static Command driveForward(Drive drive) {
+    return Commands.run(() -> drive.drive(0.5, 0.0), drive)
+    .withTimeout(5.0)
+    .finallyDo(() -> drive.drive(0.0, 0.0));
   }
 
   private Autos() {
