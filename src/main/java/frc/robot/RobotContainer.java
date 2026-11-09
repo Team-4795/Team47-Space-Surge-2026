@@ -52,22 +52,17 @@ public class RobotContainer {
    * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
    * joysticks}.
    */
-  private void configureBindings() { 
+  private void configureBindings() {
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
     m_intake.setDefaultCommand(Commands.run(() -> m_intake.setIntakeVoltage(0), m_intake));
     conveyor.setDefaultCommand(Commands.run(() ->conveyor.stopConveyor(), conveyor));
 
-    m_drive.setDefaultCommand(Commands.run(() -> drive.arcadeDrive(
+    m_drive.setDefaultCommand(Commands.run(() -> m_drive.drive(
       -m_driverController.getLeftY(), 
       -m_driverController.getRightX()
-      ), drive
+      ), m_drive
       ));
-
-    conveyor.setDefaultCommand(Commands.runEnd(
-        () -> conveyor.startConveyor(),
-        () -> conveyor.stopConveyor(),
-        conveyor));
 
     m_driverController.leftTrigger().whileTrue(Commands.run(() -> m_intake.setIntakeVoltage(5), m_intake));
     m_driverController.rightTrigger().whileTrue(Commands.run(() -> m_drive.setDriveVoltage(5), m_drive));
@@ -84,6 +79,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return Autos.exampleAuto(m_exampleSubsystem);
+    return Autos.Auto(drive, conveyor);
   }
 }

@@ -11,11 +11,7 @@ public class ConveyorSim extends SubsystemBase{
      private DCMotorSim conveyorSim = 
         new DCMotorSim(LinearSystemId.createDCMotorSystem(1, 0.5), DCMotor.getMiniCIM(2));
 
-     private double voltage = 0;
-
-     public ConveyorSim(){
-
-     }
+    private double voltage = 0;
 
      public void startConveyor(){
         voltage = 5;
@@ -32,8 +28,7 @@ public class ConveyorSim extends SubsystemBase{
         conveyorSim.update(0.02);
         Logger.recordOutput("Conveyor/VelocityRPM", conveyorSim.getAngularVelocityRPM());
         Logger.recordOutput("Conveyor/CurrentAmps", conveyorSim.getCurrentDrawAmps());
-        Logger.recordOutput("Conveyor/Voltage", voltage);
-     }
-
+        Logger.recordOutput("Conveyor/Voltage", voltage);     
+    }
 }
 

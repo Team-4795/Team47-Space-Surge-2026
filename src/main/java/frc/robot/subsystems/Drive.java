@@ -25,7 +25,7 @@ public class Drive extends SubsystemBase{
   }
 
   public void setDriveVoltage(double voltage){
-    m_leftMotor.setVoltage(-voltage);
+    m_leftMotor.setVoltage(voltage);
     m_rightMotor.setVoltage(voltage);
   }
 

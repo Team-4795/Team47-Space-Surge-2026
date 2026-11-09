@@ -30,6 +30,10 @@ public class DriveSim extends SubsystemBase {
         driveSim.setInputs(wheelSpeeds.leftMetersPerSecond, wheelSpeeds.rightMetersPerSecond);
     }
 
+    public void setDriveVoltage(double voltage) {
+        driveSim.setInputs(voltage, voltage);
+    }
+
     public void tankDrive(double rSpeed, double lSpeed) {
         driveSim.setInputs(rSpeed * 5, lSpeed * 5);
     }
