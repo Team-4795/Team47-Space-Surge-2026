@@ -56,7 +56,7 @@ public class RobotContainer {
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
     m_intake.setDefaultCommand(Commands.run(() -> m_intake.setIntakeVoltage(0), m_intake));
-    conveyor.setDefaultCommand(Commands.run(() ->conveyor.stopConveyor(), conveyor));
+    m_Conveyor.setDefaultCommand(Commands.run(() -> m_Conveyor.stopConveyor(), m_Conveyor));
 
     m_drive.setDefaultCommand(Commands.run(() -> m_drive.drive(
       -m_driverController.getLeftY(), 

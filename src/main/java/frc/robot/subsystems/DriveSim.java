@@ -21,10 +21,6 @@ public class DriveSim extends SubsystemBase {
         );
     DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(0.5);
 
-    public DriveSim() {
-
-    }
-
     public void arcadeDrive(double speed, double rotation) {
         DifferentialDriveWheelSpeeds wheelSpeeds = kinematics.toWheelSpeeds(new ChassisSpeeds(speed * 10, 0, rotation * 10));
         driveSim.setInputs(wheelSpeeds.leftMetersPerSecond, wheelSpeeds.rightMetersPerSecond);

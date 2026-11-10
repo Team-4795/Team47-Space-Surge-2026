@@ -1,7 +1,6 @@
 package frc.robot.subsystems;
 
 import org.littletonrobotics.junction.Logger;
-
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -19,7 +18,7 @@ public class Drive extends SubsystemBase{
     m_rightMotor.setInverted(true);
     m_robotDrive = new DifferentialDrive(m_leftMotor::set, m_rightMotor::set);
   }
-  
+
   public void drive(double speed, double rotation) {
     m_robotDrive.arcadeDrive(speed, rotation);
   }
@@ -30,6 +29,6 @@ public class Drive extends SubsystemBase{
   }
 
   public void periodic(){
-    Logger.recordOutput("Drive/Testing", "Hi");
+     Logger.recordOutput("Drive/Testing", "Hi");
   }
 }

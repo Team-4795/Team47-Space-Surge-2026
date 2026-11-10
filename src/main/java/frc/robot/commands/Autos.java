@@ -4,58 +4,46 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.Conveyor;
 import frc.robot.subsystems.ConveyorSim;
-import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.DriveSim;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.IntakeSim;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 
 public final class Autos {
+  public static final double DISTANCE_TO_CAPTURE_ZONE_INCHES = 54.5;
+  public static final double DRIVE_TIME_SECONDS = 1.82;
+
+
   /** Example static factory for an autonomous command. */
   public static Command exampleAuto(ExampleSubsystem subsystem) {
     return Commands.sequence(subsystem.exampleMethodCommand(), new ExampleCommand(subsystem));
   }
 
-  public static Command driveAuto(DriveSim drive, ConveyorSim conveyor, double time, double speed) {
-    return Commands.startEnd(
-      () -> drive.arcadeDrive(speed, 0), 
-      () -> drive.arcadeDrive(0, 0),   
-      drive                
-    ).withTimeout(time);
-  }
-
   public static Command shootPreloadAuto(DriveSim drive, ConveyorSim conveyor) {
-    return Commands.sequence(
-    // 1. Drive to the Power Port
-    drive.run(() -> drive.arcadeDrive(0.4, 0))
-        .withTimeout(1.0)
-        .finallyDo(() -> drive.setDriveVoltage(0)),
-
-    // 2. Score the preloaded Flux
-    conveyor.startEnd(() -> conveyor.startConveyor(), () -> conveyor.stopConveyor())
-        .withTimeout(1.5),
-
-    // 3. Back out across the tape line for the Leave points
-    drive.run(() -> drive.arcadeDrive(-0.4, 0))
-        .withTimeout(1.0)
-        .finallyDo(() -> drive.setDriveVoltage(0))
-  );
+    return Commands.startEnd(() -> conveyor.startConveyor(), () -> conveyor.stopConveyor(), conveyor).withTimeout(3.0);
   }
 
-  public static Command intakeFromMiddleAuto(DriveSim drive, ConveyorSim conveyor) {
+  public static Command intakeAndScoreFromMiddleAuto(DriveSim drive, ConveyorSim conveyor, IntakeSim intake) {
     return Commands.sequence(
-      drive.run(() -> drive.arcadeDrive(0.4, 45))
-           .withTimeout(1.5)
-           .finallyDo(() -> drive.arcadeDrive(0, 0))
-    );
+      Commands.startEnd(() -> drive.arcadeDrive(0.0001, 45), () -> drive.arcadeDrive(0, 0))
+      .withTimeout(0.1),
+
+      Commands.startEnd(() -> drive.arcadeDrive(0.5, 0.0), () -> drive.arcadeDrive(0, 0), drive).withTimeout(DRIVE_TIME_SECONDS),
+        // Run conveyor to intake the game piece
+      Commands.startEnd(() -> intake.setIntakeVoltage(5), () -> intake.setIntakeVoltage(5), intake).withTimeout(3.0),
+
+      Commands.startEnd(() -> drive.arcadeDrive(-0.5, 0.0), () -> drive.arcadeDrive(0, 0), drive).withTimeout(DRIVE_TIME_SECONDS),
+
+      Commands.startEnd(() -> drive.arcadeDrive(0.0001, -45), () -> drive.arcadeDrive(0, 0))
+      .withTimeout(0.1)
+      );
   }
 
   public static Command Auto(DriveSim drive, ConveyorSim conveyor) {
     return Commands.sequence(
-      Autos.shootPreloadAuto(drive, conveyor),
-      Autos.intakeFromMiddleAuto(drive, conveyor)
+      Autos.shootPreloadAuto(drive, conveyor)
     );
   }
 
